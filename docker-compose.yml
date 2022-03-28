@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  bookfinder_backend: 
+    build: ./backend
+    command: npm run dev 
+    ports: 
+      - '3001:3001'
+    networks:
+    - bookfinder_network
+    volumes:
+      - ./backend:/backend
+    depends_on:
+      - db
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+  bookfinder_frontend: 
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    networks:
+    - bookfinder_network
+    volumes: 
+    - ./frontend:/frontend
+  db:
+    image: mysql:5.7
+    volumes:
+      - bookfinder_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: bookfinder
+      MYSQL_USER: bookfinder
+      MYSQL_PASSWORD: bookfinder
+    networks:
+      - bookfinder_network
+    ports:
+      - '8000:80'
+networks:
+  bookfinder_network:
+volumes:
+  bookfinder_data:
+
+
+  
+    
