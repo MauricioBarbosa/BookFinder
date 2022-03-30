@@ -38,3 +38,5 @@ yarn-error.log*
 #learning file 
 
 UseCases.txt
+Learning.txt
+package-lock.json

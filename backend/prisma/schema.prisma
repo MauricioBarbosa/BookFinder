@@ -1,0 +1,79 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Publisher {
+    id Int @id @default(autoincrement())
+    name String @db.VarChar(30)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    books Book[]
+}
+
+ model Category {
+    id Int @id @default(autoincrement())
+    name String @db.VarChar(20)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    books Book[]
+}
+
+model Author {
+    id Int @id @default(autoincrement())
+    name String @db.VarChar(70)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    books Book[]
+}
+
+model Book{
+    id Int @id @default(autoincrement())
+    title String @db.VarChar(70)
+    description String? @db.VarChar(3000)
+    publisher Publisher @relation(fields: [publisher_id], references: [id])
+    publisher_id Int
+    category Category @relation(fields: [category_id], references:[id])
+    category_id Int
+    author Author @relation(fields: [author_id], references:[id])
+    author_id Int
+    coments Comment[]
+    cover Cover?
+}
+
+model Cover{
+    book_id Int @id
+    filename String @db.VarChar(100)
+    originalname String @db.VarChar(100)
+    book Book @relation(fields: [book_id], references: [id])
+}
+
+model Comment{
+    id Int @id @default(autoincrement())
+    comment String @db.VarChar(300)
+    user User @relation(fields: [user_id], references:[id])
+    user_id Int
+    books Book @relation(fields: [book_id], references:[id])
+    book_id Int
+}
+
+model User{
+    id Int @id @default(autoincrement())
+    username String @db.VarChar(45) @unique
+    userpassword String @db.VarChar(150)
+    salt String @db.VarChar(45)
+    role Role
+    coments Comment[]
+}
+
+enum Role{
+    USER
+    ADMIN
+}

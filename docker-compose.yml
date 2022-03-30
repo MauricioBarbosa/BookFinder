@@ -35,7 +35,7 @@ services:
     networks:
       - bookfinder_network
     ports:
-      - '8000:80'
+      - '8000:3306'
 networks:
   bookfinder_network:
 volumes:

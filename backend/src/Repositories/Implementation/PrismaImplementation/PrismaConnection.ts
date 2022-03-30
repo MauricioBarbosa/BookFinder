@@ -5,9 +5,9 @@ let prisma;
 
 export class PrismaConnection implements IDBConnectionInterface{
     Connect() {
-        if(prisma)
-            return prisma; 
-        else
-            return new PrismaClient(); 
+        if(!prisma){
+            prisma = new PrismaClient(); 
+        }
+        return prisma;     
     }
 }
