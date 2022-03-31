@@ -1,5 +1,5 @@
 import { AuthorPrismaRepository } from '../../../Repositories/Implementation/prisma/AuthorPrismaRepository';
-import { IAuthorRepository } from './../../../Repositories/IAuthorRepository';
+import { IAuthorRepository } from '../../../Repositories/IAuthorRepository';
 import { CreateAuthorService } from "./CreateAuthorService";
 import { ICreateAuthorDTO } from "./ICreateAuthorDTO";
 
@@ -27,7 +27,7 @@ describe('Testing CreateAuthorService class with Prisma', ()=>{
 
     it('should create an Author', async ()=>{
         const sut = createSut(authorPrismaRepository);
-        const author = createAuthor('Carlos Drummond De Andrade'); 
+        const author = createAuthor('J.K Rowling'); 
 
         await expect(sut.run(author)).resolves; 
     })
@@ -52,10 +52,10 @@ describe('Testing CreateAuthorService class with Prisma', ()=>{
 
     it("shouldn't create two Authors of the same name", async ()=>{
         const sut = createSut(authorPrismaRepository);
-        const author1 = createAuthor('J.K Rowling'); 
-        const author2 = createAuthor('J.K Rowling'); 
+        const author1 = createAuthor("Carlos Drummond De Andrade"); 
+        const author2 = createAuthor("Carlos Drummond De Andrade"); 
 
-        await expect(sut.run(author1)).resolves;  
+        await sut.run(author1);  
         await expect(sut.run(author2)).rejects.toEqual(
             new Error("Author already exists")
         );

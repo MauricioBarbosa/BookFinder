@@ -1,18 +1,15 @@
-import { AuthorPrismaRepository } from './../prisma/AuthorPrismaRepository';
+import { AuthorPrismaRepository } from './AuthorPrismaRepository';
 
-const createSUT = () =>{
-    return new AuthorPrismaRepository(); 
+const createSUT = () => {
+    return new AuthorPrismaRepository();
 }
 
-describe('Testing Author Repository', ()=>{
+describe('Testing AuthorPrismaRepository with prisma', ()=>{
 
-    it('should create an author', async ()=>{
+    it('Should check if author exists', async ()=>{
         const sut = createSUT(); 
-        await expect(sut.save('José Maria Ribeiro')).resolves; 
-    })
-
-    it('should find an author', async ()=>{
-        const sut = createSUT(); 
-        await expect(sut.checkExists('José Maria Ribeiro')).resolves.toBe(true); 
+        
+        await sut.save('José Bernardo'); 
+        await expect(sut.checkExists('José Bernardo')).resolves.toBe(true); 
     })
 })

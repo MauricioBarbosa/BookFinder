@@ -3,7 +3,7 @@ import { IAuthorRepository } from '../../IAuthorRepository';
 
 export class AuthorPrismaRepository implements IAuthorRepository{
 
-    async save(author: string): Promise<void> {
+    public async save(author: string): Promise<void> {
         await prisma.author.create({
             data: {
                 name: author
@@ -11,8 +11,8 @@ export class AuthorPrismaRepository implements IAuthorRepository{
         }); 
     }
 
-    async checkExists(name: string): Promise<boolean> {
-        const author = await prisma.author.findMany({
+    public async checkExists(name: string): Promise<boolean> {
+        const author = await prisma.author.findFirst({
             where: {
                 name: name
             }
