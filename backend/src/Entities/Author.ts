@@ -4,5 +4,9 @@ export class Author{
 
     constructor(props: Omit<Author, 'id'>, id?: number){
         Object.assign(this, props); 
+
+        if(id){
+            this.id = id;
+        }
     }
 }

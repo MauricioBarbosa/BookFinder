@@ -5,7 +5,7 @@ export class CreateAuthorService{
 
     constructor(private authorsRepository: IAuthorRepository) {}
 
-    async run(author: ICreateAuthorDTO){
+    async run(author: ICreateAuthorDTO): Promise<void>{
         if(author.name.length < 2){
             throw new Error("Author name is too small"); 
         }

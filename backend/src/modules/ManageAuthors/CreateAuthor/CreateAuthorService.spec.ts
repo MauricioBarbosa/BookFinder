@@ -19,8 +19,9 @@ describe('Testing CreateAuthorService class with Prisma', ()=>{
 
     let authorPrismaRepository: AuthorPrismaRepository; 
 
-    beforeAll(()=>{
+    beforeAll(async ()=>{
         authorPrismaRepository = new AuthorPrismaRepository(); 
+        await authorPrismaRepository.deleteAllAuthors();
     })
 
     afterEach(() => jest.clearAllMocks());
