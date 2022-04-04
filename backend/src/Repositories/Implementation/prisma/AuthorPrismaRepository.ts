@@ -24,6 +24,21 @@ export class AuthorPrismaRepository implements IAuthorRepository{
         })
     }
 
+    public async updateAuthor(author: Author): Promise<Author> {
+        const updatedAuthor = await prisma.author.update({
+            data: {
+                name: author.name
+            }, 
+            where: {
+                id: author.id
+            }
+        })
+
+        return new Author({
+            name: updatedAuthor.name, 
+        }, updatedAuthor.id);
+    }
+
     public async findById(id: number): Promise<Author | null> {
         const foundAuthor = await prisma.author.findFirst({
             where: {
