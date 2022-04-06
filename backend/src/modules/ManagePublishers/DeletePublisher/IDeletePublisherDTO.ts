@@ -1,3 +1,3 @@
-export interface IDeleteCategoryDTO{
+export interface IDeletePublisherDTO{
     id: number
 }

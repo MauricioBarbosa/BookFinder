@@ -1,16 +1,16 @@
-import { ICategoryRepository } from "../../../Repositories/ICategoryRepository";
-import { IDeleteCategoryDTO } from "./IDeleteCategoryDTO";
+import { IPublisherRepository } from "../../../Repositories/IPublisherRepository";
+import { IDeletePublisherDTO } from "./IDeletePublisherDTO";
 
-export class DeleteCategoryService{
-    constructor(private categoriesRepository: ICategoryRepository) {}
+export class DeletePublisherService{
+    constructor(private categoriesRepository: IPublisherRepository) {}
 
-    async run(category: IDeleteCategoryDTO){
-        const foundCategory = await this.categoriesRepository.findById(category.id);
+    async run(category: IDeletePublisherDTO){
+        const foundPublisher = await this.categoriesRepository.findById(category.id);
 
-        if(!foundCategory){
-            throw new Error("Category doesn't exist"); 
+        if(!foundPublisher){
+            throw new Error("Publisher doesn't exist"); 
         }
 
-        await this.categoriesRepository.deleteCategory(foundCategory.id);
+        await this.categoriesRepository.deletePublisher(foundPublisher.id);
     }
 }

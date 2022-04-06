@@ -1,69 +1,69 @@
-import { Category } from './../../../Entities/Category';
-import { CategoryPrismaRepository } from "../../../Repositories/Implementation/prisma/CategoryPrismaRepository";
-import { ReadCategoryService } from "./ReadCategoryService";
+import { Publisher } from './../../../Entities/Publisher';
+import { PublisherPrismaRepository } from "../../../Repositories/Implementation/prisma/PublisherPrismaRepository";
+import { ReadPublisherService } from "./ReadPublisherService";
 
-let categoryPrismaRepository: CategoryPrismaRepository;
-let sut: ReadCategoryService;
+let publisherPrismaRepository: PublisherPrismaRepository;
+let sut: ReadPublisherService;
 
 beforeAll(async ()=>{
-    categoryPrismaRepository = new CategoryPrismaRepository();
-    sut = new ReadCategoryService(categoryPrismaRepository);
+    publisherPrismaRepository = new PublisherPrismaRepository();
+    sut = new ReadPublisherService(publisherPrismaRepository);
 });
 
-describe("Testing ReadCategoryService class runById method with Prisma", ()=>{
+describe("Testing ReadPublisherService class runById method with Prisma", ()=>{
 
-    let category: Category; 
+    let publisher: Publisher; 
 
     beforeAll(async ()=>{
-        await categoryPrismaRepository.deleteAllCategories();
-        category = await categoryPrismaRepository.save("Fiction");
+        await publisherPrismaRepository.deleteAllPublishers();
+        publisher = await publisherPrismaRepository.save("Fiction");
     })
 
-    it("it should throw an category not found error", async ()=>{
-        await expect(sut.runById(category.id + 1)).rejects.toEqual(
-            new Error("Category doesn't exist")
+    it("it should throw an publisher not found error", async ()=>{
+        await expect(sut.runById(publisher.id + 1)).rejects.toEqual(
+            new Error("Publisher doesn't exist")
         );
     })
 
-    it("it should return an category", async ()=>{
-        await expect(sut.runById(category.id)).resolves.toEqual(
-            new Category({
+    it("it should return an publisher", async ()=>{
+        await expect(sut.runById(publisher.id)).resolves.toEqual(
+            new Publisher({
                 name: "Fiction"
-            }, category.id)
+            }, publisher.id)
         );
     })
 })
 
-describe("Testing ReadCategoryService class run method", ()=>{
+describe("Testing ReadPublisherService class run method", ()=>{
 
-    let categories: Array<string>
+    let publishers: Array<string>
 
     beforeAll(async ()=>{ 
-        await categoryPrismaRepository.deleteAllCategories();
-        categories = [
-            "Romance", 
-            "Responsabilities", 
-            "Science", 
-            "Physics"
+        await publisherPrismaRepository.deleteAllPublishers();
+        publishers = [
+            "Rocco", 
+            "Aleph", 
+            "Record", 
+            "Gente"
         ]
-        await categoryPrismaRepository.saveMany(categories); 
+        await publisherPrismaRepository.saveMany(publishers); 
     })
 
-    it("Should return all categories", async ()=>{
+    it("Should return all publishers", async ()=>{
         expect((await sut.run())).toHaveLength(
-            categories.length
+            publishers.length
         ); 
     })
 
-    it("Should have a length equal 2: categories whose name starts with R", async ()=>{
+    it("Should have a length equal 2: publishers whose name starts with R", async ()=>{
         expect((await sut.run('R'))).toHaveLength(2);
     })
 
-    it("Should return categories whose name starts with R", async ()=>{
+    it("Should return publishers whose name starts with R", async ()=>{
         expect((await sut.run('R'))).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({name: "Romance"}), 
-                expect.objectContaining({name: "Responsabilities"})
+                expect.objectContaining({name: "Rocco"}), 
+                expect.objectContaining({name: "Record"})
             ])
         )
     })

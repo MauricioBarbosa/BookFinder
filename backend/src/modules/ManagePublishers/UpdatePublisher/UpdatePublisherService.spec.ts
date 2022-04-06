@@ -1,58 +1,58 @@
-import { Category } from "../../../Entities/Category";
-import { CategoryPrismaRepository } from "../../../Repositories/Implementation/prisma/CategoryPrismaRepository";
-import { UpdateCategoryService } from "./UpdateCategoryService";
+import { Publisher } from "../../../Entities/Publisher";
+import { PublisherPrismaRepository } from "../../../Repositories/Implementation/prisma/PublisherPrismaRepository";
+import { UpdatePublisherService } from "./UpdatePublisherService";
 
-let categoryPrismaRepository: CategoryPrismaRepository;
-let sut: UpdateCategoryService;
+let publisherPrismaRepository: PublisherPrismaRepository;
+let sut: UpdatePublisherService;
 
 beforeAll(async ()=>{
-    categoryPrismaRepository = new CategoryPrismaRepository();
-    sut = new UpdateCategoryService(categoryPrismaRepository);
+    publisherPrismaRepository = new PublisherPrismaRepository();
+    sut = new UpdatePublisherService(publisherPrismaRepository);
 });
 
-describe('Testing UpdateCategoryClass with Prisma', ()=>{
-    let category: Category;
+describe('Testing UpdatePublisherClass with Prisma', ()=>{
+    let publisher: Publisher;
 
     beforeAll(async()=>{
-        await categoryPrismaRepository.deleteAllCategories();
-        category = await categoryPrismaRepository.save("Science Fiction"); 
+        await publisherPrismaRepository.deleteAllPublishers();
+        publisher = await publisherPrismaRepository.save("Aleph"); 
     })
 
-    it("Should throw category name too small error", async ()=>{
+    it("Should throw publisher name too small error", async ()=>{
         await expect(sut.run({
-            id: category.id, 
+            id: publisher.id, 
             name: "A"
         })).rejects.toEqual(
-            new Error("Category name is too small")
+            new Error("Publisher name is too small")
         )
     })
 
-    it("Should throw an Category name is too big error", async ()=>{
+    it("Should throw an Publisher name is too big error", async ()=>{
         await expect(sut.run({
-            id: category.id, 
+            id: publisher.id, 
             name: "g8xQ2S6YpNNTFRB00AZ3OOs2fdxHaBRlc1FFsQnCM"
         })).rejects.toEqual(
-            new Error("Category name is too big")
+            new Error("Publisher name is too big")
         )
     })
 
-    it("Should throw category not found error", async ()=>{
+    it("Should throw publisher not found error", async ()=>{
         await expect(sut.run({
-            id: category.id + 1, 
-            name: "Science Fiction Changed"
+            id: publisher.id + 1, 
+            name: "Aleph Changed"
         })).rejects.toEqual(
-            new Error("Category not found")
+            new Error("Publisher not found")
         )
     })
 
-    it("Should update an category", async ()=>{
+    it("Should update an publisher", async ()=>{
         await expect(sut.run({
-            id: category.id, 
-            name: "Science Fiction Changed"
+            id: publisher.id, 
+            name: "Aleph Changed"
         })).resolves.toEqual(
-            new Category({
-                name: "Science Fiction Changed"
-            }, category.id)
-        )
+            new Publisher({
+                name: "Aleph Changed"
+            }, publisher.id)
+        );
     })
 })

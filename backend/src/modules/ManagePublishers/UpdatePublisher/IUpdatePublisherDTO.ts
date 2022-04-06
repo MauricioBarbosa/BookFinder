@@ -1,4 +1,4 @@
-export interface IUpdateCategoryDTO{
+export interface IUpdatePublisherDTO{
     id: number, 
     name: string
 }

@@ -1,22 +1,22 @@
-import { Category } from "../../../Entities/Category";
-import { ICategoryRepository } from "../../../Repositories/ICategoryRepository";
+import { Publisher } from "../../../Entities/Publisher";
+import { IPublisherRepository } from "../../../Repositories/IPublisherRepository";
 
-export class ReadCategoryService{
-    constructor(private categoriesRepository: ICategoryRepository) {}
+export class ReadPublisherService{
+    constructor(private publishersRepository: IPublisherRepository) {}
 
-    async runById(id: number): Promise<Category>{
-        const category = await this.categoriesRepository.findById(id);
+    async runById(id: number): Promise<Publisher>{
+        const publisher = await this.publishersRepository.findById(id);
 
-        if(!category){
-            throw new Error("Category doesn't exist"); 
+        if(!publisher){
+            throw new Error("Publisher doesn't exist"); 
         }
 
-        return category; 
+        return publisher; 
     }
 
-    async run(name?: string): Promise<Array<Category>>{
+    async run(name?: string): Promise<Array<Publisher>>{
         if(name)
-            return await this.categoriesRepository.findByName(name);
-        return this.categoriesRepository.findAll();
+            return await this.publishersRepository.findByName(name);
+        return this.publishersRepository.findAll();
     }
 }

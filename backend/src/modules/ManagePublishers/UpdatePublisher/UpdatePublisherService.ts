@@ -1,27 +1,27 @@
-import { Category } from '../../../Entities/Category';
-import { ICategoryRepository } from '../../../Repositories/ICategoryRepository';
-import { IUpdateCategoryDTO } from './IUpdateCategoryDTO';
+import { Publisher } from '../../../Entities/Publisher';
+import { IPublisherRepository } from '../../../Repositories/IPublisherRepository';
+import { IUpdatePublisherDTO } from './IUpdatePublisherDTO';
 
-export class UpdateCategoryService{
-    constructor(private categoriesRepository: ICategoryRepository) {}
+export class UpdatePublisherService{
+    constructor(private publishersRepository: IPublisherRepository) {}
 
-    async run(category: IUpdateCategoryDTO){
-        if(category.name.length < 2){
-            throw new Error("Category name is too small");
+    async run(publisher: IUpdatePublisherDTO){
+        if(publisher.name.length < 2){
+            throw new Error("Publisher name is too small");
         }
 
-        if(category.name.length > 40){
-            throw new Error("Category name is too big");
+        if(publisher.name.length > 40){
+            throw new Error("Publisher name is too big");
         }
 
-        const categoryExists = await this.categoriesRepository.findById(category.id);
+        const publisherExists = await this.publishersRepository.findById(publisher.id);
 
-        if(!categoryExists){
-            throw new Error("Category not found");
+        if(!publisherExists){
+            throw new Error("Publisher not found");
         }
 
-        return this.categoriesRepository.updateCategory(new Category({
-            name: category.name
-        }, category.id));
+        return this.publishersRepository.updatePublisher(new Publisher({
+            name: publisher.name
+        }, publisher.id));
     }
 }

@@ -1,40 +1,40 @@
-import { Category } from './../../../Entities/Category';
-import { CategoryPrismaRepository } from "../../../Repositories/Implementation/prisma/CategoryPrismaRepository";
-import { DeleteCategoryService } from "./DeleteCategoryService"
+import { Publisher } from './../../../Entities/Publisher';
+import { PublisherPrismaRepository } from "../../../Repositories/Implementation/prisma/PublisherPrismaRepository";
+import { DeletePublisherService } from "./DeletePublisherService"
 
-let categoryPrismaRepository: CategoryPrismaRepository;
-let sut: DeleteCategoryService;
+let publisherPrismaRepository: PublisherPrismaRepository;
+let sut: DeletePublisherService;
 
 beforeAll(async () =>{
-    categoryPrismaRepository = new CategoryPrismaRepository();
-    sut = new DeleteCategoryService(categoryPrismaRepository);
+    publisherPrismaRepository = new PublisherPrismaRepository();
+    sut = new DeletePublisherService(publisherPrismaRepository);
 })
 
-describe('Testing DeleteCategoryService class with Prisma', ()=>{
+describe('Testing DeletePublisherService class with Prisma', ()=>{
 
-    let category: Category;
+    let publisher: Publisher;
 
     beforeAll(async ()=>{
-        await categoryPrismaRepository.deleteAllCategories(); 
-        category = await categoryPrismaRepository.save('Categoria de Teste');
+        await publisherPrismaRepository.deleteAllPublishers(); 
+        publisher = await publisherPrismaRepository.save('Publisher de Teste');
     })
 
-    it("it should throw category doesn't exist error", async ()=>{
+    it("it should throw publisher doesn't exist error", async ()=>{
         await expect(sut.run({
             id: -1
         })).rejects.toEqual(
-            new Error("Category doesn't exist")
+            new Error("Publisher doesn't exist")
         );
     })
 
-    it('Should delete a category', async ()=>{
+    it('Should delete a publisher', async ()=>{
         await sut.run({
-            id: category.id
+            id: publisher.id
         });
         await expect(sut.run({
-            id: category.id
+            id: publisher.id
         })).rejects.toEqual(
-            new Error("Category doesn't exist")
+            new Error("Publisher doesn't exist")
         );
     })
 })
