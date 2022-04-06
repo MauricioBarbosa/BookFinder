@@ -21,6 +21,12 @@ export class CategoryPrismaRepository implements ICategoryRepository{
             }
         });
         
+        const cat = new Category({
+            name: createdCategory.name, 
+        } , createdCategory.id)
+
+        console.log(cat);
+
         return new Category({
             name: createdCategory.name, 
         } , createdCategory.id);
