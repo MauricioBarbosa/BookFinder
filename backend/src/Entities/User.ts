@@ -3,10 +3,15 @@ import { Role } from './Role';
 export class User{
     public readonly id: number; 
     public username: string; 
-    public userpassword: string; 
+    public userpassword: string;
+    public salt: string; 
     public role: Role; 
 
-    constructor(props: Omit<User, 'id'|'userpassword'>, id?: number, userpassword?: string){
+    constructor(props: Omit<User, 'id'|'userpassword'|'salt'>, 
+    id?: number, 
+    userpassword?: string,
+    salt?: string
+    ){
         Object.assign(this, props); 
 
         if(id){
@@ -14,7 +19,11 @@ export class User{
         }
 
         if(userpassword){
-            this.userpassword = userpassword
+            this.userpassword = userpassword;
+        }
+
+        if(salt){
+            this.salt = salt;
         }
     }
 }
